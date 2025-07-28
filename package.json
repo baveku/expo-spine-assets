@@ -1,15 +1,15 @@
 {
-  "name": "expo-custom-assets",
-  "version": "1.4.1",
-  "description": "Expo plugin to add custom assets to native codebase",
+  "name": "expo-spines-assets",
+  "version": "1.0.0",
+  "description": "Expo plugin to add spines assets to native codebase",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "license": "MIT",
   "sideEffects": false,
-  "homepage": "https://github.com/malaa-tech/expo-custom-assets",
+  "homepage": "https://github.com/baveku/expo-spines-assets",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/malaa-tech/expo-custom-assets.git"
+    "url": "git+https://github.com/baveku/expo-spines-assets.git"
   },
   "files": [
     "./build",

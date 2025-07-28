@@ -39,15 +39,15 @@ const path = __importStar(require("node:path"));
 function withCustomAssetsAndroid(config, props) {
     const { assetsPaths, ignoredPattern } = props;
     return (0, config_plugins_1.withDangerousMod)(config, [
-        "android",
+        'android',
         async (config) => {
             const { projectRoot } = config.modRequest;
-            const resDir = path.join(projectRoot, "android", "app", "src", "main", "res");
-            const rawDir = path.join(resDir, "raw");
+            const resDir = path.join(projectRoot, 'android', 'app', 'src', 'main', 'assets');
+            const rawDir = path.join(resDir, 'spines');
             (0, fs_extra_1.ensureDirSync)(rawDir);
             for (const assetSourceDir of assetsPaths) {
                 const assetSourcePath = path.join(projectRoot, assetSourceDir);
-                const assetFiles = (await (0, fs_extra_1.readdir)(assetSourcePath)).filter(file => ignoredPattern === undefined ? true : !file.match(new RegExp(ignoredPattern)));
+                const assetFiles = (await (0, fs_extra_1.readdir)(assetSourcePath)).filter((file) => (ignoredPattern === undefined ? true : !file.match(new RegExp(ignoredPattern))));
                 for (const assetFile of assetFiles) {
                     const srcAssetPath = path.join(assetSourcePath, assetFile);
                     const destAssetPath = path.join(rawDir, assetFile);
@@ -62,15 +62,15 @@ function withCustomAssetsIos(config, props) {
     const { assetsPaths, assetsDirName, ignoredPattern } = props;
     return (0, config_plugins_1.withXcodeProject)(config, async (config) => {
         const { projectRoot } = config.modRequest;
-        const iosDir = path.join(projectRoot, "ios");
-        const assetsDir = path.join(iosDir, assetsDirName ?? "Assets");
+        const iosDir = path.join(projectRoot, 'ios');
+        const assetsDir = path.join(iosDir, assetsDirName ?? 'Assets');
         (0, fs_extra_1.ensureDirSync)(assetsDir);
         for (const assetSourceDir of assetsPaths) {
             const assetSourcePath = path.join(projectRoot, assetSourceDir);
             // const assetFiles = await readdir(assetSourcePath);
-            const assetFiles = (await (0, fs_extra_1.readdir)(assetSourcePath)).filter(file => ignoredPattern === undefined ? true : !file.match(new RegExp(ignoredPattern)));
+            const assetFiles = (await (0, fs_extra_1.readdir)(assetSourcePath)).filter((file) => (ignoredPattern === undefined ? true : !file.match(new RegExp(ignoredPattern))));
             const project = config.modResults;
-            const groupName = "Assets";
+            const groupName = 'Assets';
             for (const assetFile of assetFiles) {
                 const assetPath = path.join(assetSourceDir, assetFile);
                 const destAssetPath = path.join(assetsDir, assetFile);
@@ -94,13 +94,4 @@ const withCustomAssets = (config, props) => {
     config = withCustomAssetsAndroid(config, props);
     return config;
 };
-let pkg = {
-    name: "expo-custom-assets",
-};
-try {
-    pkg = require("expo-custom-assets/package.json");
-}
-catch {
-    console.error("Failed to load package.json for expo-custom-assets");
-}
-exports.default = (0, config_plugins_1.createRunOncePlugin)(withCustomAssets, pkg.name, pkg.version);
+exports.default = (0, config_plugins_1.createRunOncePlugin)(withCustomAssets, 'expo-spines-assets', '1.0.0');
