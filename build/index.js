@@ -43,7 +43,7 @@ function withCustomAssetsAndroid(config, props) {
         async (config) => {
             const { projectRoot } = config.modRequest;
             const resDir = path.join(projectRoot, 'android', 'app', 'src', 'main', 'assets');
-            const rawDir = path.join(resDir, 'spines');
+            const rawDir = path.join(resDir);
             (0, fs_extra_1.ensureDirSync)(rawDir);
             for (const assetSourceDir of assetsPaths) {
                 const assetSourcePath = path.join(projectRoot, assetSourceDir);
@@ -94,4 +94,13 @@ const withCustomAssets = (config, props) => {
     config = withCustomAssetsAndroid(config, props);
     return config;
 };
-exports.default = (0, config_plugins_1.createRunOncePlugin)(withCustomAssets, 'expo-spines-assets', '1.0.0');
+let pkg = {
+    name: 'expo-spines-assets',
+};
+try {
+    pkg = require('expo-spines-assets/package.json');
+}
+catch {
+    console.error('Failed to load package.json for expo-spines-assets');
+}
+exports.default = (0, config_plugins_1.createRunOncePlugin)(withCustomAssets, pkg.name, pkg.version);

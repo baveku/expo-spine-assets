@@ -10,7 +10,7 @@ function withCustomAssetsAndroid(config: ExpoConfig, props: { assetsPaths: strin
     async (config) => {
       const { projectRoot } = config.modRequest
       const resDir = path.join(projectRoot, 'android', 'app', 'src', 'main', 'assets')
-      const rawDir = path.join(resDir, 'spines')
+      const rawDir = path.join(resDir)
       ensureDirSync(rawDir)
 
       for (const assetSourceDir of assetsPaths) {
@@ -71,4 +71,14 @@ const withCustomAssets: ConfigPlugin<{ assetsPaths: string[]; assetsDirName?: st
   return config
 }
 
-export default createRunOncePlugin(withCustomAssets, 'expo-spines-assets', '1.0.0')
+let pkg: { name: string; version?: string } = {
+  name: 'expo-spines-assets',
+}
+
+try {
+  pkg = require('expo-spines-assets/package.json')
+} catch {
+  console.error('Failed to load package.json for expo-spines-assets')
+}
+
+export default createRunOncePlugin(withCustomAssets, pkg.name, pkg.version)
